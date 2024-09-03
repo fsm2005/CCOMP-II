@@ -1,0 +1,5 @@
+﻿  Tarea1.cpp
+C:\Users\estar\OneDrive\Documentos\tareas ccomp II\Tarea1\Tarea1\Tarea1.cpp(23,16): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\estar\OneDrive\Documentos\tareas ccomp II\Tarea1\Tarea1\Tarea1.cpp(25,17): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\estar\OneDrive\Documentos\tareas ccomp II\Tarea1\Tarea1\Tarea1.cpp(42,25): warning C4244: 'inicializando': conversión de 'double' a 'int'; posible pérdida de datos
+  Tarea1.vcxproj -> C:\Users\estar\OneDrive\Documentos\tareas ccomp II\Tarea1\x64\Debug\Tarea1.exe
