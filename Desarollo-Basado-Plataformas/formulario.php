@@ -26,7 +26,7 @@
         <select id="nacionalidad" name="nacionalidad" required>
             <option value="argentina">Argentina</option>
             <option value="mexico">México</option>
-            <option value="peru">Peru</option>
+            <option value="peru">Peruano</option>
             <option value="chile">Chile</option>
             <option value="colombia">Colombia</option>
         </select><br><br>
