@@ -97,16 +97,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cv_path = 'CV-ultimo.html';
 
     $cv_content = file_get_contents($cv_path);
-    $cv_content = str_replace("<!-- NOMBRE -->", $nombre, $cv_content);
-    $cv_content = str_replace("<!-- OCUPACION -->", $ocupacion, $cv_content);
-    $cv_content = str_replace("<!-- CONTACTO -->", $contacto, $cv_content);
-    $cv_content = str_replace("<!-- NACIONALIDAD -->", $nacionalidad, $cv_content);
-    $cv_content = str_replace("<!-- FECHAS -->", $fecha_nacimiento, $cv_content);
-    $cv_content = str_replace("<!-- NIVEL_INGLES -->", $nivel_ingles, $cv_content);
-    $cv_content = str_replace("<!-- LENGUAJES_PROGRAMACION -->", $lenguajes_programacion, $cv_content);
-    $cv_content = str_replace("<!-- APTITUDES -->", $aptitudes, $cv_content);
-    $cv_content = str_replace("<!-- HABILIDADES -->", $habilidades, $cv_content);
-    $cv_content = str_replace("<!-- PERFIL -->", $perfil, $cv_content);
+    $cv_content = str_replace("nombre", $nombre, $cv_content);
+    $cv_content = str_replace("ocupacion", $ocupacion, $cv_content);
+    $cv_content = str_replace("contacto", $contacto, $cv_content);
+    $cv_content = str_replace("nacionalidad", $nacionalidad, $cv_content);
+    $cv_content = str_replace("fechas", $fecha_nacimiento, $cv_content);
+    $cv_content = str_replace("ingles", $nivel_ingles, $cv_content);
+    $cv_content = str_replace("lenguajes-progra", $lenguajes_programacion, $cv_content);
+    $cv_content = str_replace("aptitudes", $aptitudes, $cv_content);
+    $cv_content = str_replace("habilidades", $habilidades, $cv_content);
+    $cv_content = str_replace("perfil", $perfil, $cv_content);
 
     file_put_contents($cv_path, $cv_content);
 
