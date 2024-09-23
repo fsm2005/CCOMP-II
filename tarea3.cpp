@@ -2,51 +2,50 @@
 
 using namespace std;
 
-void imprimirArray(int arr[], int tam) {
-    for (int i = 0; i < tam; ++i) {
+void imprimirArray(int arr[]) {
+    
+    for (int i = 0; arr[i] != 0; ++i) {
         cout << arr[i] << " ";
     }
     cout << endl;
 }
 
-void ordenarArray(int* arr, int tam) {
+void merge(int* arr) {
     int* puntero1 = arr;
-    int* puntero2 = arr + tam / 2; 
-    int* finalPuntero1 = arr + tam / 2; 
-    int* finalArr = arr + tam;
 
- 
-    for (int* p1 = puntero1, *p2 = puntero2; p1 < finalPuntero1; ++p1, ++p2) {
-        if (*p1 > *p2) {
-            int temp = *p1;
-            *p1 = *p2;
-            *p2 = temp;
+    int* temp = arr;
+
+    for (;*temp;temp++) {}
+  
+    int* puntero2 = puntero1 + (temp - puntero1) / 2;
+
+    int* final = puntero2 + (puntero2 - puntero1);  
+
+    
+    while ((puntero1 < puntero2) && (puntero2 > final)) {
+        if (*puntero1 > *puntero2) {
+            int temp = *puntero1;
+            *puntero1 = *puntero2;
+            *puntero2 = temp;
+            
         }
-    }
-
-    for (int* p1 = arr; p1 < finalArr - 1; ++p1) {
-        for (int* p2 = p1 + 1; p2 < finalArr; ++p2) {
-            if (*p1 > *p2) {
-                int temp = *p1;
-                *p1 = *p2;
-                *p2 = temp;
-            }
+        else {
+            puntero1++;  
+            puntero2++;  
         }
     }
 }
 
 int main() {
-
-    int arr[] = { 2, 6, 8,12,20,1,3,7,11,15 };
-    int tam = sizeof(arr) / sizeof(arr[0]);
-
+    int arr[] = { 2, 6, 8, 20, 1, 3, 7, 11 ,
+        0}; 
     cout << "Array original: ";
-    imprimirArray(arr, tam);
+    imprimirArray(arr);
 
-    ordenarArray(arr, tam);
+    merge(arr);
 
     cout << "Array ordenado: ";
-    imprimirArray(arr, tam);
+    imprimirArray(arr);
 
     return 0;
 }
