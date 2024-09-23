@@ -10,7 +10,10 @@ void imprimirArray(int arr[], int tam) {
 }
 
 void ordenarArray(int* arr, int tam) {
-    int* puntero1 = arr; int* puntero2 = arr + tam / 2; int* finalPuntero1 = arr + tam / 2; int* finalArr = arr + tam;
+    int* puntero1 = arr;
+    int* puntero2 = arr + tam / 2; 
+    int* finalPuntero1 = arr + tam / 2; 
+    int* finalArr = arr + tam;
 
  
     for (int* p1 = puntero1, *p2 = puntero2; p1 < finalPuntero1; ++p1, ++p2) {
