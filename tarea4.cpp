@@ -1,60 +1,58 @@
 #include <iostream>
 
-void ordenarParesyImparesDescendente(int* arr, int size);
+using namespace std;
+
+void merge_par_impar (int* arr);
+
+void imprimirArray(int arr[]);
 
 int main() {
-    int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-    int size = sizeof(arr) / sizeof(arr[0]);
+    int arr[] = { 2, 6, 4 ,8 ,1, 7 ,5, 9,
+        0 }; 
+    cout << "Array original: ";
+    imprimirArray(arr);
 
-    std::cout << "original: ";
-    for (int i = 0; i < size; i++) {
-        std::cout << arr[i] << " ";
-    }
-    std::cout << std::endl;
+    merge(arr);
 
-    ordenarParesyImparesDescendente(arr, size);
-
-    std::cout << "ordenado: ";
-    for (int i = 0; i < size; i++) {
-        std::cout << arr[i] << " ";
-    }
-    std::cout << std::endl;
+    cout << "Array ordenado: ";
+    imprimirArray(arr);
 
     return 0;
 }
-void intercambiar(int* a, int* b) {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+void imprimirArray(int arr[]) {
+    for (int i = 0; arr[i] != 0; ++i) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 }
 
-void ordenarDescendente(int* inicio, int* fin) {
-    for (int* i = inicio; i < fin - 1; i++) {
-        for (int* j = inicio; j < fin - (i - inicio) - 1; j++) {
-            if (*j < *(j + 1)) {
-                intercambiar(j, j + 1);
+void merge_par_impar(int* arr) {
+
+    for (int i = 0; i < 7; i++) {
+        int* puntero1 = arr;
+
+        int* temp = arr;
+        for (; *temp; temp++) {}
+  
+        int* puntero2 = puntero1 + (temp - puntero1) / 2;
+
+        for (int* p1 = puntero1; p1 < puntero2 - 1; ++p1) {
+            for (int* p2 = p1 + 1; p2 < puntero2; ++p2) {
+                if (*p1 < *p2) {  
+                    int temp = *p1;
+                    *p1 = *p2;
+                    *p2 = temp;
+                }
+            }
+        }
+        for (int* p1 = puntero2; *p1 != 0; ++p1) {
+            for (int* p2 = p1 + 1; *p2 != 0; ++p2) {
+                if (*p1 < *p2) {  
+                    int temp = *p1;
+                    *p1 = *p2;
+                    *p2 = temp;
+                }
             }
         }
     }
-}
-void ordenarParesyImparesDescendente(int* arr, int size) {
-    int* inicio = arr;
-    int* fin = arr + size - 1;
-
-
-    while (inicio < fin) {
-        if (*inicio % 2 != 0) {
-            intercambiar(inicio, fin);
-            fin--;
-        }
-        else {
-            inicio++;
-        }
-    }
-
-    int* mitad = inicio;
-
-    ordenarDescendente(arr, mitad);
-
-    ordenarDescendente(mitad, arr + size);
 }
