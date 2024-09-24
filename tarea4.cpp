@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 void  split(int* arr);
 void imprimirArray(int arr[]);
