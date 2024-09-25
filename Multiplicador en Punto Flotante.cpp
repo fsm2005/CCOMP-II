@@ -85,7 +85,7 @@ int main() {
     float resultadoEmulado = emularMultiplicacionPuntoFlotante(numero1, numero2);
     float resultadoReal = numero1 * numero2;
 
-    cout << " Resultado: \n" << resultadoEmulado << endl;
+    cout << " Resultado: " << resultadoEmulado << endl;
     cout << "Resultado real: " << resultadoReal << endl;
 
     if (fabs(resultadoEmulado - resultadoReal) < 1e-6) {
