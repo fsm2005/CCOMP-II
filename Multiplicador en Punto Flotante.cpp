@@ -3,6 +3,34 @@
 #include <cstdint>
 
 using namespace std;
+uint32_t convertirFloatABinario(float valor) ;
+float convertirBinarioAFloat(uint32_t binario);
+void descomponer(float valor, int& signo, int& exponente, uint32_t& mantisa);
+uint32_t ensamblarNumero(int signo, int exponente, uint32_t mantisa);
+float emularMultiplicacionPuntoFlotante(float num1, float num2);
+int main() {
+    float numero1, numero2;
+
+    cout << "Ingrese el primer numero: ";
+    cin >> numero1;
+    cout << "Ingrese el segundo numero: ";
+    cin >> numero2;
+
+    float resultadoEmulado = emularMultiplicacionPuntoFlotante(numero1, numero2);
+    float resultadoReal = numero1 * numero2;
+
+    cout << " Resultado: " << resultadoEmulado << endl;
+    cout << "Resultado real: " << resultadoReal << endl;
+
+    if (fabs(resultadoEmulado - resultadoReal) < 1e-6) {
+        cout << "\nLos resultados coinciden dentro de la tolerancia.\n";
+    }
+    else {
+        cout << "\nLos resultados difieren.\n";
+    }
+
+    return 0;
+}
 
 uint32_t convertirFloatABinario(float valor) {
     union {
@@ -72,28 +100,4 @@ float emularMultiplicacionPuntoFlotante(float num1, float num2) {
     uint32_t resultadoBits = ensamblarNumero(signoResultado, expResultado, mantisaResultado);
 
     return convertirBinarioAFloat(resultadoBits);
-}
-
-int main() {
-    float numero1, numero2;
-
-    cout << "Ingrese el primer numero: ";
-    cin >> numero1;
-    cout << "Ingrese el segundo numero: ";
-    cin >> numero2;
-
-    float resultadoEmulado = emularMultiplicacionPuntoFlotante(numero1, numero2);
-    float resultadoReal = numero1 * numero2;
-
-    cout << " Resultado: " << resultadoEmulado << endl;
-    cout << "Resultado real: " << resultadoReal << endl;
-
-    if (fabs(resultadoEmulado - resultadoReal) < 1e-6) {
-        cout << "\nLos resultados coinciden dentro de la tolerancia.\n";
-    }
-    else {
-        cout << "\nLos resultados difieren.\n";
-    }
-
-    return 0;
 }
