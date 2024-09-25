@@ -1,108 +1,99 @@
 #include <iostream>
-#include <bitset>
 #include <cmath>
 #include <cstdint>
 
 using namespace std;
-uint32_t floatToBinary(float f);
-float binaryToFloat(uint32_t binary);
-void mostrarBits(float numero);
-float multiplicacionInusual(float a, float b);
+
+uint32_t convertirFloatABinario(float valor) {
+    union {
+        float flotante;
+        uint32_t entero;
+    } unionValor;
+    unionValor.flotante = valor;
+    return unionValor.entero;
+}
+
+float convertirBinarioAFloat(uint32_t binario) {
+    union {
+        float flotante;
+        uint32_t entero;
+    } unionValor;
+    unionValor.entero = binario;
+    return unionValor.flotante;
+}
+
+void descomponer(float valor, int& signo, int& exponente, uint32_t& mantisa) {
+    uint32_t bits = convertirFloatABinario(valor);
+    signo = (bits >> 31) & 1;
+    exponente = (bits >> 23) & 0xFF;
+    mantisa = bits & 0x7FFFFF;
+    mantisa |= 0x800000;
+}
+
+uint32_t ensamblarNumero(int signo, int exponente, uint32_t mantisa) {
+    mantisa &= 0x7FFFFF;
+    uint32_t resultado = (signo << 31) | (exponente << 23) | mantisa;
+    return resultado;
+}
+
+float emularMultiplicacionPuntoFlotante(float num1, float num2) {
+    if (num1 == 0.0f || num2 == 0.0f) {
+        return 0.0f;
+    }
+
+    int signo1, exp1;
+    uint32_t mantisa1;
+    int signo2, exp2;
+    uint32_t mantisa2;
+
+    descomponer(num1, signo1, exp1, mantisa1);
+    descomponer(num2, signo2, exp2, mantisa2);
+
+    int expResultado = (exp1 - 127) + (exp2 - 127) + 127;
+
+    uint64_t mantisaResultado = (uint64_t)mantisa1 * (uint64_t)mantisa2;
+
+    if (mantisaResultado & (1ULL << 47)) {
+        mantisaResultado >>= 1;
+        expResultado++;
+    }
+
+    mantisaResultado = (mantisaResultado >> 23) & 0x7FFFFF;
+
+    if (expResultado >= 255) {
+        expResultado = 255;
+        mantisaResultado = 0;
+    }
+    else if (expResultado <= 0) {
+        return 0.0f;
+    }
+
+    int signoResultado = signo1 ^ signo2;
+    uint32_t resultadoBits = ensamblarNumero(signoResultado, expResultado, mantisaResultado);
+
+    return convertirBinarioAFloat(resultadoBits);
+}
 
 int main() {
-    float a, b;
+    float numero1, numero2;
 
-    cout << "Dame un número (float): ";
-    cin >> a;
-    cout << "Dame otro número (float): ";
-    cin >> b;
+    cout << "Ingrese el primer numero: ";
+    cin >> numero1;
+    cout << "Ingrese el segundo numero: ";
+    cin >> numero2;
 
-    cout << "\nVamos a analizar el primer número:\n";
-    mostrarBits(a);
-    cout << "\nY ahora, el segundo número:\n";
-    mostrarBits(b);
+    float resultadoEmulado = emularMultiplicacionPuntoFlotante(numero1, numero2);
+    float resultadoReal = numero1 * numero2;
 
-    float resultadoInusual = multiplicacionInusual(a, b);
+    cout << " Resultado: \n" << resultadoEmulado << endl;
+    cout << "Resultado real: " << resultadoReal << endl;
 
-    float resultadoNormal = a * b;
-
-    cout << "\nResultado de nuestra multiplicación inusual:\n";
-    mostrarBits(resultadoInusual);
-    cout << "Valor: " << resultadoInusual << endl;
-
-    cout << "\nEl resultado normal es: " << resultadoNormal << endl;
-
-    if (fabs(resultadoInusual - resultadoNormal) < 1e-6) {
-        cout << "\n¡Sorpresa! Los resultados coinciden. ¡Misión cumplida!\n";
+    if (fabs(resultadoEmulado - resultadoReal) < 1e-6) {
+        cout << "\nLos resultados coinciden dentro de la tolerancia.\n";
     }
+    else {
+        cout << "\nLos resultados difieren.\n";
+    }
+
     return 0;
-}
-uint32_t floatToBinary(float f) {
-    union {
-        float f;
-        uint32_t i;
-    } u;
-    u.f = f;
-    return u.i;
-}
-float binaryToFloat(uint32_t binary) {
-    union {
-        uint32_t i;
-        float f;
-    } u;
-    u.i = binary;
-    return u.f;
-}
-void mostrarBits(float numero) {
-    uint32_t bits = floatToBinary(numero);
-    cout << "Superpoderes del número (" << numero << "):\n";
-    cout << "Bits: " << bitset<32>(bits) << endl;
-    cout << "Signo: " << ((bits >> 31) & 1) << " (Este es el temperamento, positivo o negativo)\n";
-    cout << "Exponente: " << bitset<8>((bits >> 23) & 0xFF) << " (El nivel de poder del número)\n";
-    cout << "Significando: " << bitset<23>(bits & 0x7FFFFF) << " (Es como su ADN)\n";
-}
-
-float multiplicacionInusual(float a, float b) {
-
-    if (a == 0.0f || b == 0.0f) {
-        cout << "Boom, uno de ellos es 0. Así que el resultado también es 0.\n";
-        return 0.0f;
-    }
-
-    uint32_t bitsA = floatToBinary(a);
-    uint32_t bitsB = floatToBinary(b);
-
-    int signoA = (bitsA >> 31) & 1;
-    int signoB = (bitsB >> 31) & 1;
-    int signoResultado = signoA ^ signoB;
-
-    int exponenteA = (bitsA >> 23) & 0xFF;
-    int exponenteB = (bitsB >> 23) & 0xFF;
-
-    uint32_t significandoA = (bitsA & 0x7FFFFF) | 0x800000;
-    uint32_t significandoB = (bitsB & 0x7FFFFF) | 0x800000;
-
-    int exponenteResultado = exponenteA + exponenteB - 127;
-
-    uint64_t significandoResultado = (uint64_t)significandoA * (uint64_t)significandoB;
-
-    if (significandoResultado & (1ULL << 47)) {
-        significandoResultado >>= 1;
-        exponenteResultado++;
-    }
-
-    significandoResultado &= 0x7FFFFF;
-
-    if (exponenteResultado >= 255) {
-        cout << "¡Overflow! Nos fuimos al infinito y más allá.\n";
-        exponenteResultado = 255;
-        significandoResultado = 0;
-    }
-    else if (exponenteResultado <= 0) {
-        cout << "Underflow... el número es tan pequeño que se desvanece en 0.\n";
-        return 0.0f;
-    }
-
-    uint32_t resultadoBits = (signoResultado << 31) | (exponenteResultado << 23) | significandoResultado;
-    return binaryToFloat(resultadoBits);
 }
