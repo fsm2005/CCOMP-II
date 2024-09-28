@@ -1,63 +1,45 @@
 #include <iostream>
-
 using namespace std;
-
-void merge(int* arr);
-
+void  split(int* ini, int* medio);
 void imprimirArray(int arr[]);
 
 int main() {
-    int arr[] = { 2, 16, 34 ,88 ,1, 13 ,55, 99,
-        0 };
+    int arr[] = { 2, 6, 5 ,8 ,1, 7 ,5, 9 };
     cout << "Array original: ";
     imprimirArray(arr);
 
-    merge(arr);
-    //merge(arr,arr+5);
-
+    split(arr, arr + 4);
     cout << "Array ordenado: ";
     imprimirArray(arr);
 
     return 0;
 }
 void imprimirArray(int arr[]) {
-    for (int i = 0; arr[i] != 0; ++i) {
+    for (int i = 0; arr[i] != 9; ++i) {
         cout << arr[i] << " ";
     }
     cout << endl;
 }
+void  split(int* ini, int* medio) {
 
-//void merge(int* ini. int *med) 
-void merge(int* arr) {
+    int* puntero1 = ini;
 
-    for (int i = 0; i < 7; i++) {
-        int* puntero1 = arr;
+    int* final = medio + ((medio - ini) - 1);
 
-        int* temp = arr;
-        for (; *temp; temp++) {}
-
-        int* puntero2 = puntero1 + (temp - puntero1) / 2;
-
-        int* final = puntero2 + (puntero2 - puntero1);
-
-        // final = med + ((med-ini)-1)
-
-        while ((puntero1 < puntero2) && (puntero2 < final)) {
-            int* r = puntero1;
-
-            while (r < final) {
-                puntero1 = r;
-                puntero2 = r + 1;
-
-                if (*puntero1 > *puntero2 && puntero2 < final) {
-                    int temp = *puntero1;
-                    *puntero1 = *puntero2;
-                    *puntero2 = temp;
-                }
+    while (puntero1 < final)
+    {
+        if (*puntero1 % 2 == 0) {
+            puntero1++;
+        }
+        else {
+            for (int* r = ini + 1;*r < *final;r++) {
+                int temp = *ini;
+                *ini = *r;
+                *r = temp;
+                ini++;
                 r++;
             }
-            puntero1++;
-            puntero2++;
         }
     }
+
 }
