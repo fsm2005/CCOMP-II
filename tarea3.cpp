@@ -1,21 +1,24 @@
 #include <iostream>
 using namespace std;
 void  split(int* ini, int* medio);
-void imprimirArray(int arr[]);
+void imprimirArray(int arr[], int size);
+
 
 int main() {
-    int arr[] = { 2, 6, 5 ,8 ,1, 7 ,5, 9 };
+    int arr[] = { 1,2,3,4 };
+    int size = sizeof(arr) / sizeof(arr[0]);
     cout << "Array original: ";
-    imprimirArray(arr);
+    imprimirArray(arr, size); 
 
-    split(arr, arr + 4);
+    split(arr, arr + 2 ); 
     cout << "Array ordenado: ";
-    imprimirArray(arr);
+    imprimirArray(arr, size); 
 
     return 0;
 }
-void imprimirArray(int arr[]) {
-    for (int i = 0; arr[i] != 9; ++i) {
+
+void imprimirArray(int arr[], int size) {
+    for (int i = 0; i < size; ++i) {
         cout << arr[i] << " ";
     }
     cout << endl;
@@ -26,19 +29,17 @@ void  split(int* ini, int* medio) {
 
     int* final = medio + ((medio - ini) - 1);
 
-    while (puntero1 < final)
-    {
+    while (puntero1 < final) {
         if (*puntero1 % 2 == 0) {
             puntero1++;
         }
         else {
-            for (int* r = ini + 1;*r < *final;r++) {
-                int temp = *ini;
-                *ini = *r;
-                *r = temp;
-                ini++;
-                r++;
+            int temp = *puntero1;
+            for (int* r = puntero1; r < final; r++) {
+                *r = *(r + 1);  
             }
+            *final = temp; 
+            final--; 
         }
     }
 
