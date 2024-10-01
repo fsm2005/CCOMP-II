@@ -1,52 +1,45 @@
 #include <iostream>
 using namespace std;
-void  split(int* arr);
-void imprimirArray(int arr[]);
+void  split(int* ini, int* medio);
+void imprimirArray(int arr[], int size);
+
 
 int main() {
-    int arr[] = { 2, 6, 4 ,8 ,1, 7 ,5, 9,
-        0 };
+    int arr[] = { 1,2,3,4 };
+    int size = sizeof(arr) / sizeof(arr[0]);
     cout << "Array original: ";
-    imprimirArray(arr);
+    imprimirArray(arr, size); 
 
-    split(arr);
-
+    split(arr, arr + 2 ); 
     cout << "Array ordenado: ";
-    imprimirArray(arr);
+    imprimirArray(arr, size); 
 
     return 0;
 }
-void imprimirArray(int arr[]) {
-    for (int i = 0; arr[i] != 0; ++i) {
+
+void imprimirArray(int arr[], int size) {
+    for (int i = 0; i < size; ++i) {
         cout << arr[i] << " ";
     }
     cout << endl;
 }
-void  split(int* arr) {
+void  split(int* ini, int* medio) {
 
-        int* puntero1 = arr;
+    int* puntero1 = ini;
 
-        int* temp = arr;
-        for (; *temp; temp++) {}
+    int* final = medio + ((medio - ini) - 1);
 
-        int* puntero2 = puntero1 + (temp - puntero1) / 2;
-
-        for (int* p1 = puntero1; p1 < puntero2 - 1; ++p1) {
-            for (int* p2 = p1 + 1; p2 < puntero2; ++p2) {
-                if (*p1 < *p2) {
-                    int temp = *p1;
-                    *p1 = *p2;
-                    *p2 = temp;
-                }
-            }
+    while (puntero1 < final) {
+        if (*puntero1 % 2 == 0) {
+            puntero1++;
         }
-        for (int* p1 = puntero2; *p1 != 0; ++p1) {
-            for (int* p2 = p1 + 1; *p2 != 0; ++p2) {
-                if (*p1 < *p2) {
-                    int temp = *p1;
-                    *p1 = *p2;
-                    *p2 = temp;
-                }
+        else {
+            int temp = *puntero1;
+            for (int* r = puntero1; r < final; r++) {
+                *r = *(r + 1);  
             }
+            *final = temp; 
+            final--; 
         }
+    }
 }
