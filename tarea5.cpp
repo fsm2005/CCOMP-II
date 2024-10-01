@@ -7,8 +7,8 @@ void ordenar(int* arr, int n);
 void intercambiar(int* a, int* b);
 
 int main() {
-    int arr[] = { 51, 3, 28, 35, 4, 2, 7, 23, 15 };
-    int ta = sizeof(arr) / sizeof(arr[0]);
+    int arr[] = { 51, 3, 28, 35, 4, 2, 7, 23, 15,10};
+    
 
     cout << "Original: ";
     for (int i = 0; i < ta; i++)
@@ -16,7 +16,7 @@ int main() {
     cout << endl;
 
    
-    ordenar(arr, ta);
+    ordenar(arr, arr+5);
 
     cout << "Ordenado: ";
     for (int i = 0; i < ta; i++)
@@ -26,10 +26,10 @@ int main() {
     return 0;
 }
 
-void ordenar(int* arr, int ta) {
+void ordenar(int* arr, int* medio) {
     bool cambio = true;
     int* ini = arr;
-    int* fin = arr + ta - 1;
+    int* fin = medio + ((medio - ini) - 1);
 
     while (ini < fin&& cambio) {
         cambio = false;
