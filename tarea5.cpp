@@ -24,7 +24,7 @@ void koctel(int* arr, int* medio) {
     bool cambio = true;
     int* ini = arr;
     int* fin = medio + ((medio - ini) - 1);
-    while (ini < fin&& cambio) {
+    while (ini < fin && cambio) {
         cambio = false;
 
         for (int* ptr = ini; ptr < fin; ++ptr) {
