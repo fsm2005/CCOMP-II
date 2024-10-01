@@ -25,21 +25,17 @@ void imprimirArray(int arr[], int size) {
 }
 void  split(int* ini, int* medio) {
 
-    int* puntero1 = ini;
-
     int* final = medio + ((medio - ini) - 1);
 
-    while (puntero1 < final) {
-        if (*puntero1 % 2 == 0) {
-            puntero1++;
+    for (int* t = ini; t <= final;++t) {
+        if (*ini % 2 == 0) {
+            ini++;
         }
+
         else {
-            int temp = *puntero1;
-            for (int* r = puntero1; r < final; r++) {
-                *r = *(r + 1);  
+            for (int* r = final; r > ini; r --) {
+                swap(*r, *ini);
             }
-            *final = temp; 
-            final--; 
         }
     }
 }
