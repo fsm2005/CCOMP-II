@@ -26,20 +26,20 @@ char convertirMinuscula(char c) {
 bool palindromo(char* p) {
 
     int len = std::strlen(p);
-    char* inicio = p;
+    char* ini = p;
     char* fin = p + len - 1;
 
-    while (inicio < fin) {
-        while (*inicio == ' ') {
-            inicio++;
+    while (ini< fin) {
+        while (*ini == ' ') {
+            ini++;
         }
         while (*fin == ' ') {
             fin--;
         }
-        if (convertirMinuscula(*inicio) != convertirMinuscula(*fin)) {
+        if (convertirMinuscula(*ini) != convertirMinuscula(*fin)) {
             return false; 
         }
-        inicio++;
+        ini++;
         fin--;
     }
     return true; 
