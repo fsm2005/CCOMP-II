@@ -1,11 +1,10 @@
 #include <iostream>
 #include <cstring> 
-char convertirMinuscula(char c);
 bool palindromo(char* p);
+void uppercase(char* p);
 
 int main() {
     char cadena[] = "Anita lava la tina"; 
-
     if (palindromo(cadena)) {
         std::cout << "Es un palindromo" << std::endl;
     }
@@ -16,31 +15,34 @@ int main() {
     return 0;
 }
 
-char convertirMinuscula(char c) {
-    if (c >= 'A' && c <= 'Z') {
-        return c + 32; 
+void uppercase(char* p) {
+    for (; *p; p++) {
+        if ((*p >= 'A') && (*p <= 'Z')) {
+            *p += 32; 
+        }
     }
-    return c; 
 }
 
 bool palindromo(char* p) {
+    uppercase(p);
 
     int len = std::strlen(p);
-    char* ini = p;
+
+    char* inicio = p;
     char* fin = p + len - 1;
 
-    while (ini< fin) {
-        while (*ini == ' ') {
-            ini++;
+    while (inicio < fin) {
+        while (*inicio == ' ') {
+            inicio++;
         }
         while (*fin == ' ') {
             fin--;
         }
-        if (convertirMinuscula(*ini) != convertirMinuscula(*fin)) {
-            return false; 
+        if (*inicio != *fin) {
+            return false;
         }
-        ini++;
+        inicio++;
         fin--;
     }
-    return true; 
+    return true;
 }
