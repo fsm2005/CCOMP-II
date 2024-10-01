@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-void ordenar(int* arr, int*medio);
+void koctel(int* arr, int*medio);
 void imprimirArray(int arr[], int size);
 
 int main() {
@@ -9,7 +9,7 @@ int main() {
     int size = sizeof(arr) / sizeof(arr[0]);
     cout << "Original: ";
     imprimirArray(arr, size); 
-    ordenar(arr, arr+5);
+    koctel(arr, arr+5);
     cout << "Ordenado: ";
     imprimirArray(arr, size); 
     return 0;
@@ -20,7 +20,7 @@ void imprimirArray(int arr[], int size) {
     }
     cout << endl;
 }
-void ordenar(int* arr, int* medio) {
+void koctel(int* arr, int* medio) {
     bool cambio = true;
     int* ini = arr;
     int* fin = medio + ((medio - ini) - 1);
