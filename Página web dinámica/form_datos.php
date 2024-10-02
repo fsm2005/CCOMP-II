@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $habilidades = implode(", ", $_POST['habilidades']);
     $perfil = htmlspecialchars($_POST['perfil']);
 
-    $cv_path = 'CV-ultimo.html';
+    $cv_path = 'CVmuestra.html';
 
     $cv_content = file_get_contents($cv_path);
     $cv_content = str_replace("<!-- NOMBRE -->", $nombre, $cv_content);
