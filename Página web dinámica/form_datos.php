@@ -5,9 +5,6 @@ $clave = "";
 $baseDeDatos = "datosform";
 $enlace = mysqli_connect($servidor, $usuario, $clave, $baseDeDatos);
 
-if (!$enlace) {
-    die("Conexión fallida: " . mysqli_connect_error());
-}
 ?>
 
 <!DOCTYPE html>
@@ -103,13 +100,6 @@ if (isset($_POST['registro'])) {
 
     $insertarDatos = "INSERT INTO datacv (nombre, fecha_nacimiento, ocupacion, contacto, nacionalidad, nivel_ingles, lenguajes_programacion, aptitudes, habilidades, perfil) 
                       VALUES ('$nombre', '$fecha_nacimiento', '$ocupacion', '$contacto', '$nacionalidad', '$nivel_ingles', '$lenguajes_programacion', '$aptitudes', '$habilidades', '$perfil')";
-
-    if (mysqli_query($enlace, $insertarDatos)) {
-        echo "Datos registrados correctamente";
-    } else {
-        echo "Error: " . mysqli_error($enlace);
-    }
-}
 mysqli_close($enlace);
 ?>
 
