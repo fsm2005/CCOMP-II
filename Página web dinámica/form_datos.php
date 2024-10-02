@@ -5,6 +5,9 @@ $clave = "";
 $baseDeDatos = "datosform";
 $enlace = mysqli_connect($servidor, $usuario, $clave, $baseDeDatos);
 
+if (!$enlace) {
+    die("Conexión fallida: " . mysqli_connect_error());
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +22,7 @@ $enlace = mysqli_connect($servidor, $usuario, $clave, $baseDeDatos);
 
     <form action="" method="POST">
         <label for="nombre">Nombre y Apellidos:</label>
-        <input type="text" id="nombre" name="nombre_apellidos" required><br><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
 
         <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
         <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br><br>
@@ -100,6 +103,13 @@ if (isset($_POST['registro'])) {
 
     $insertarDatos = "INSERT INTO datacv (nombre, fecha_nacimiento, ocupacion, contacto, nacionalidad, nivel_ingles, lenguajes_programacion, aptitudes, habilidades, perfil) 
                       VALUES ('$nombre', '$fecha_nacimiento', '$ocupacion', '$contacto', '$nacionalidad', '$nivel_ingles', '$lenguajes_programacion', '$aptitudes', '$habilidades', '$perfil')";
+
+    if (mysqli_query($enlace, $insertarDatos)) {
+        echo "Datos registrados correctamente";
+    } else {
+        echo "Error: " . mysqli_error($enlace);
+    }
+}
 mysqli_close($enlace);
 ?>
 
@@ -107,7 +117,7 @@ mysqli_close($enlace);
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $nombre = htmlspecialchars($_POST['nombre_apellidos']);
+    $nombre = htmlspecialchars($_POST['nombre']);
     $fecha_nacimiento = htmlspecialchars($_POST['fecha_nacimiento']);
     $ocupacion = htmlspecialchars($_POST['ocupacion']);
     $contacto = htmlspecialchars($_POST['contacto']);
