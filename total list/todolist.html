@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Todo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(25, 110, 159);
+        }
+
+        li {
+            list-style: none;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .H4 {
+            background-color: rgb(183, 183, 183);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px 70px;
+            border-radius: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 70%;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+
+        }
+
+        .remove-btn {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 1px 4px;
+            border-radius: 5px;
+        }
+
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('#ntarea').onsubmit = (e) => {
+                e.preventDefault();
+
+                const cb = document.createElement("INPUT");
+                cb.setAttribute("type", "checkbox");
+
+                const removeBtn = document.createElement("button");
+                removeBtn.innerHTML = 'x';
+                removeBtn.classList.add('remove-btn');
+                removeBtn.onclick = () => li.remove();
+
+                const li = document.createElement('li');
+                li.appendChild(cb);
+                li.innerHTML += document.querySelector('#task').value;
+                li.appendChild(removeBtn); 
+
+                document.querySelector('#tasks').append(li);
+
+                document.querySelector('#task').value = ' ';
+            };
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="H4">
+            <h1>Lista</h1>
+        </div>
+        <h1></h1>
+        <form id="ntarea">
+            <input id="task" autocomplete="off" autofocus placeholder="Tarea" type="text">
+            <input type="submit" value="Agregar tarea">
+        </form>
+
+        <ol id="tasks"></ol>
+    </div>
+</body>
+</html>
+
