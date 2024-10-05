@@ -1,134 +1,141 @@
 #include <iostream>
 #include <string>
 using namespace std;
-string obtenerUnidad(int numero, bool esParteMiles = false);
-string obtenerDecena(int numero, bool esParteMiles = false);
-string obtenerCentena(int numero, bool esParteMiles = false);
-string convertirMiles(int numero);
-string convertirMillones(int numero);
-string convertirRestante(int numero, bool esParteMiles = false);
-string convertirNumero(int numero);
+string texto_unidad(int valor, bool esMillar = false);
+string texto_decena(int valor, bool esMillar = false);
+string texto_centena(int valor, bool esMillar = false);
+string texto_millar(int valor);
+string convertir_a_texto(int valor);
+string convertir_restante(int valor, bool esMillar);
 
 int main() {
-    int numeroEntrada;
+    int numeroIngresado;
     cout << "Ingresa un numero: ";
-    cin >> numeroEntrada;
-    }
-
-    string resultadoTexto = convertirNumero(numeroEntrada);
-    cout << numeroEntrada << " = " << resultadoTexto << endl;
-
-    return 0;
-}
-string obtenerUnidad(int numero, bool esParteMiles) {
-    if (numero >= 1 && numero <= 9) {
-        switch (numero) {
-            case 1: return esParteMiles ? "un" : "uno";
-            case 2: return "dos";
-            case 3: return "tres";
-            case 4: return "cuatro";
-            case 5: return "cinco";
-            case 6: return "seis";
-            case 7: return "siete";
-            case 8: return "ocho";
-            case 9: return "nueve";
-        }
-    }
-    return "";
+    cin >> numeroIngresado;
+    convertir_a_texto(numeroIngresado);
+    string numero = convertir_a_texto(numeroIngresado);
+    cout << "El numero en letras es: " << numero;
+ 
 }
 
-string obtenerDecena(int numero, bool esParteMiles) {
-    if (numero >= 10 && numero <= 19) {
-        switch (numero) {
-            case 10: return "diez";
-            case 11: return "once";
-            case 12: return "doce";
-            case 13: return "trece";
-            case 14: return "catorce";
-            case 15: return "quince";
-            case 16: return "dieciséis";
-            case 17: return "diecisiete";
-            case 18: return "dieciocho";
-            case 19: return "diecinueve";
-        }
-    } else if (numero >= 20) {
-        switch (numero / 10) {
-            case 2: return (numero % 10 == 0) ? "veinte" : "veinti" + obtenerUnidad(numero % 10, esParteMiles);
-            case 3: return (numero % 10 == 0) ? "treinta" : "treinta y " + obtenerUnidad(numero % 10, esParteMiles);
-            case 4: return (numero % 10 == 0) ? "cuarenta" : "cuarenta y " + obtenerUnidad(numero % 10, esParteMiles);
-            case 5: return (numero % 10 == 0) ? "cincuenta" : "cincuenta y " + obtenerUnidad(numero % 10, esParteMiles);
-            case 6: return (numero % 10 == 0) ? "sesenta" : "sesenta y " + obtenerUnidad(numero % 10, esParteMiles);
-            case 7: return (numero % 10 == 0) ? "setenta" : "setenta y " + obtenerUnidad(numero % 10, esParteMiles);
-            case 8: return (numero % 10 == 0) ? "ochenta" : "ochenta y " + obtenerUnidad(numero % 10, esParteMiles);
-            case 9: return (numero % 10 == 0) ? "noventa" : "noventa y " + obtenerUnidad(numero % 10, esParteMiles);
-        }
-    } else {
-        return obtenerUnidad(numero, esParteMiles);
-    }
-    return "";
-}
-
-string obtenerCentena(int numero, bool esParteMiles) {
-    if (numero >= 100) {
-        switch (numero / 100) {
-            case 1: return (numero % 100 == 0) ? "cien" : "ciento " + obtenerDecena(numero % 100, esParteMiles);
-            case 2: return "doscientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 3: return "trescientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 4: return "cuatrocientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 5: return "quinientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 6: return "seiscientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 7: return "setecientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 8: return "ochocientos " + obtenerDecena(numero % 100, esParteMiles);
-            case 9: return "novecientos " + obtenerDecena(numero % 100, esParteMiles);
-        }
-    } else {
-        return obtenerDecena(numero, esParteMiles);
-    }
-    return "";
-}
-
-string convertirMiles(int numero) {
-    if (numero >= 1000) {
-        int valorMiles = numero / 1000;
-        int restante = numero % 1000;
-
-        string textoMiles;
-        if (valorMiles == 1) {
-            textoMiles = "mil";  
-        } else {
-            textoMiles = obtenerCentena(valorMiles, true) + " mil";  
-        }
-
-        if (restante > 0) {
-            textoMiles += " " + obtenerCentena(restante);
-        }
-
-        return textoMiles;
-    } else {
-        return obtenerCentena(numero);
-    }
-}
-
-string convertirRestante(int numero, bool esParteMiles) {
-    if (numero == 0) {
+string convertir_restante(int valor, bool esMillar = false) {
+    if (valor == 0) {
         return "";
-    } else if (numero < 100) {
-        return obtenerDecena(numero, esParteMiles);
-    } else {
-        return obtenerCentena(numero, esParteMiles);
+    }
+    else if (valor < 100) {
+        return texto_decena(valor, esMillar);
+    }
+    else {
+        return texto_centena(valor, esMillar);
     }
 }
 
-string convertirNumero(int numero) {
-    if (numero == 0) {
+string convertir_a_texto(int valor) {
+    if (valor == 0) {
         return "cero";
     }
 
-    if (numero >= 1000000) {
-        return "FUERA DE RANGO";
-    } else if (numero >= 1000) {
-        return convertirMiles(numero);
-    } else {
-        return convertirRestante(numero);
+    if (valor >= 1000000) {
+        return "FUERA DE RANGO OE";
+    }
+    else if (valor >= 1000) {
+        return texto_millar(valor);
+    }
+    else {
+        return convertir_restante(valor);
+    }
+}
+
+string texto_unidad(int valor, bool esMillar) {
+    if (valor >= 1 && valor <= 9) {
+        switch (valor) {
+        case 1: return esMillar ? "un" : "uno";
+        case 2: return "dos";
+        case 3: return "tres";
+        case 4: return "cuatro";
+        case 5: return "cinco";
+        case 6: return "seis";
+        case 7: return "siete";
+        case 8: return "ocho";
+        case 9: return "nueve";
+        }
+    }
+    return "";
+}
+
+string texto_decena(int valor, bool esMillar) {
+    if (valor >= 10 && valor <= 19) {
+        switch (valor) {
+        case 10: return "diez";
+        case 11: return "once";
+        case 12: return "doce";
+        case 13: return "trece";
+        case 14: return "catorce";
+        case 15: return "quince";
+        case 16: return "dieciséis";
+        case 17: return "diecisiete";
+        case 18: return "dieciocho";
+        case 19: return "diecinueve";
+        }
+    }
+    else if (valor >= 20) {
+        switch (valor / 10) {
+        case 2: return (valor % 10 == 0) ? "veinte" : "veinti" + texto_unidad(valor % 10, esMillar);
+        case 3: return (valor % 10 == 0) ? "treinta" : "treinta y " + texto_unidad(valor % 10, esMillar);
+        case 4: return (valor % 10 == 0) ? "cuarenta" : "cuarenta y " + texto_unidad(valor % 10, esMillar);
+        case 5: return (valor % 10 == 0) ? "cincuenta" : "cincuenta y " + texto_unidad(valor % 10, esMillar);
+        case 6: return (valor % 10 == 0) ? "sesenta" : "sesenta y " + texto_unidad(valor % 10, esMillar);
+        case 7: return (valor % 10 == 0) ? "setenta" : "setenta y " + texto_unidad(valor % 10, esMillar);
+        case 8: return (valor % 10 == 0) ? "ochenta" : "ochenta y " + texto_unidad(valor % 10, esMillar);
+        case 9: return (valor % 10 == 0) ? "noventa" : "noventa y " + texto_unidad(valor % 10, esMillar);
+        }
+    }
+    else {
+        return texto_unidad(valor, esMillar);
+    }
+    return "";
+}
+
+string texto_centena(int valor, bool esMillar) {
+    if (valor >= 100) {
+        switch (valor / 100) {
+        case 1: return (valor % 100 == 0) ? "cien" : "ciento " + texto_decena(valor % 100, esMillar);
+        case 2: return "doscientos " + texto_decena(valor % 100, esMillar);
+        case 3: return "trescientos " + texto_decena(valor % 100, esMillar);
+        case 4: return "cuatrocientos " + texto_decena(valor % 100, esMillar);
+        case 5: return "quinientos " + texto_decena(valor % 100, esMillar);
+        case 6: return "seiscientos " + texto_decena(valor % 100, esMillar);
+        case 7: return "setecientos " + texto_decena(valor % 100, esMillar);
+        case 8: return "ochocientos " + texto_decena(valor % 100, esMillar);
+        case 9: return "novecientos " + texto_decena(valor % 100, esMillar);
+        }
+    }
+    else {
+        return texto_decena(valor, esMillar);
+    }
+    return "";
+}
+
+string texto_millar(int valor) {
+    if (valor >= 1000) {
+        int valorMillar = valor / 1000;
+        int resto = valor % 1000;
+
+        string textoMillar;
+        if (valorMillar == 1) {
+            textoMillar = "mil";
+        }
+        else {
+            textoMillar = texto_centena(valorMillar, true) + " mil";
+        }
+
+        if (resto > 0) {
+            textoMillar += " " + texto_centena(resto);
+        }
+
+        return textoMillar;
+    }
+    else {
+        return texto_centena(valor);
     }
 }
