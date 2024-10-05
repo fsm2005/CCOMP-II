@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
-// Declaración de funciones
 string obtenerUnidad(int numero, bool esParteMiles = false);
 string obtenerDecena(int numero, bool esParteMiles = false);
 string obtenerCentena(int numero, bool esParteMiles = false);
@@ -13,12 +11,8 @@ string convertirNumero(int numero);
 
 int main() {
     int numeroEntrada;
-    cout << "Ingresa un numero entre 1 y 999999: ";
+    cout << "Ingresa un numero: ";
     cin >> numeroEntrada;
-
-    if (numeroEntrada < 1 || numeroEntrada > 999999) {
-        cout << "Fuera de rango. Inténtalo de nuevo." << endl;
-        return 1;
     }
 
     string resultadoTexto = convertirNumero(numeroEntrada);
@@ -26,8 +20,6 @@ int main() {
 
     return 0;
 }
-
-// Funciones específicas
 string obtenerUnidad(int numero, bool esParteMiles) {
     if (numero >= 1 && numero <= 9) {
         switch (numero) {
