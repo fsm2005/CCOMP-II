@@ -34,7 +34,9 @@ void  split(int* ini, int* medio) {
 
         else {
             for (int* r = final; r > ini; r --) {
-                swap(*r, *ini);
+               int temp = *r;
+                *r = *ini;
+                *ini = temp;
             }
         }
     }
