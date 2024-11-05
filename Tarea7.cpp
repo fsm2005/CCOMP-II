@@ -41,8 +41,7 @@ void merge(nodo<T>* A, nodo<T>* B) {
         B = B->next;
     }
     mergedTail = mergedHead;
-
-    while (A != nullptr && B != nullptr) {
+    for (; A != nullptr && B != nullptr; mergedTail = mergedTail->next) {
         if (A->valor < B->valor) {
             mergedTail->next = A;
             A = A->next;
@@ -51,18 +50,14 @@ void merge(nodo<T>* A, nodo<T>* B) {
             mergedTail->next = B;
             B = B->next;
         }
-        mergedTail = mergedTail->next;
     }
-
     if (A != nullptr) {
         mergedTail->next = A;
     }
     else {
         mergedTail->next = B;
     }
-
     A = mergedHead;
-
 }
 
 int main() {
