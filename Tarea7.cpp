@@ -61,7 +61,7 @@ void merge(nodo<T>* A, nodo<T>* B) {
     }
 
 int main() {
-    int A[] = { 1,2,3,5,6 };
+    int A[] = { 1,2,3,5,6,13 };
     int B[] = { 12,13,20};
     nodo<int>* LEA;
     nodo<int>* LEB;
