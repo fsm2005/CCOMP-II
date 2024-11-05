@@ -29,36 +29,36 @@ void Print(nodo<T>* head) {
 
 template <class T>
 void merge(nodo<T>* A, nodo<T>* B) {
-    nodo<T>* mergedHead = nullptr;  
-    nodo<T>* mergedTail = nullptr; 
+        nodo<T>* ini = nullptr;
+        nodo<T>* fin = nullptr;
 
-    if (A->valor < B->valor) {
-        mergedHead = A;
-        A = A->next;
-    }
-    else {
-        mergedHead = B;
-        B = B->next;
-    }
-    mergedTail = mergedHead;
-    for (; A != nullptr && B != nullptr; mergedTail = mergedTail->next) {
         if (A->valor < B->valor) {
-            mergedTail->next = A;
+            ini = A;
             A = A->next;
         }
         else {
-            mergedTail->next = B;
+            ini = B;
             B = B->next;
         }
+        fin = ini;
+        for (; A != nullptr && B != nullptr; fin = fin->next) {
+            if (A->valor < B->valor) {
+                fin->next = A;
+                A = A->next;
+            }
+            else {
+                fin->next = B;
+                B = B->next;
+            }
+        }
+        if (A != nullptr) {
+            fin->next = A;
+        }
+        else {
+            fin->next = B;
+        }
+        A = ini;
     }
-    if (A != nullptr) {
-        mergedTail->next = A;
-    }
-    else {
-        mergedTail->next = B;
-    }
-    A = mergedHead;
-}
 
 int main() {
     int A[] = { 1,2,3,5,6 };
