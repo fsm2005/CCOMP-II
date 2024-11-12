@@ -93,5 +93,28 @@ int main() {
     cout << "Lista2:" << endl;
     lista.PRINT();
 
+bool find(T valor, nodo<T>*& pos) {
+    if (!head) {  // Lista vacía
+        pos = nullptr;
+        return false;
+    }
 
+    pos = head;
+    if (pos->valor == valor) {  // Si el valor está en el nodo head
+        return true;
+    }
+
+    nodo<T>* temp = head->next;
+    while (temp != head) {  // Recorrer hasta volver al head
+        if (temp->valor == valor) {  // Valor encontrado
+            pos = temp;
+            return true;
+        }
+        temp = temp->next;
+    }
+
+    pos = nullptr;  // Valor no encontrado
+    return false;
+}
+    
 }
