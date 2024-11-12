@@ -31,25 +31,22 @@ public:
     }
 
 void DEL(T valor) {
-    nodo<T>* node = nullptr;
-    nodo<T>* prev = nullptr;
-    if (!find(valor, node, prev)) return; 
-    if (node == head) {
-        if (head->next == head) {  
-            delete head;
-            head = nullptr;
-        } else {
-            nodo<T>* last = head;
-            while (last->next != head) {
-                last = last->next;
+    if (!head) return;  
+    nodo<T>* pos = nullptr;
+    if (find(valor, pos)) {
+        if (pos == head) {
+            if (head->next == head) {
+                head = nullptr;
+            } else {
+                head = head->next;
             }
-            last->next = head->next;
-            head = head->next;
-            delete node;
         }
-    } else {
-        prev->next = node->next;
-        delete node;
+        nodo<T>* temp = head;
+        while (temp->next != pos) {
+            temp = temp->next;
+        }
+        temp->next = pos->next;
+        delete pos; 
     }
 }
 
