@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="YourNamespace.CVFormPage"
+             Title="Llenar CV">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Padding="20" Spacing="15">
+
+                <Entry x:Name="NameEntry" Placeholder="Nombre Completo" />
+
+                <Entry x:Name="OccupationEntry" Placeholder="Ocupación" />
+
+                <Entry x:Name="PhoneEntry" Placeholder="Teléfono" Keyboard="Telephone" />
+
+                <Entry x:Name="LocationEntry" Placeholder="Ubicación" />
+
+                <Entry x:Name="LanguageEntry" Placeholder="Idiomas (Ej. Inglés: Intermedio)" />
+
+                <Editor x:Name="SkillsEditor" Placeholder="Aptitudes" HeightRequest="100" />
+
+                <DatePicker x:Name="BirthdatePicker" />
+
+                <Editor x:Name="AbilitiesEditor" Placeholder="Habilidades" HeightRequest="100" />
+
+                <Editor x:Name="ProfileDescriptionEditor" Placeholder="Descripción del Perfil" HeightRequest="100" />
+
+                <Editor x:Name="ProgrammingLanguagesEditor" Placeholder="Lenguajes de Programación" HeightRequest="100" />
+
+                <Button Text="Aceptar" BackgroundColor="#444" TextColor="White" Clicked="OnAcceptClicked" />
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
