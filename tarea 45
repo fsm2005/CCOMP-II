@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <pthread.h>
+#include <unistd.h>
+
+int thread_id_counter = 0;
+pthread_t threads[100];
+int thread_count = 0;
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+// funcion recusiva de fibonacci
+int fibonacci(int n) {
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+// funcion numero positivo
+int es_positivo(const char* str) {
+    if (*str == '\0' || str[0] == '\n') return 0;
+    for (int i = 0; str[i]; ++i) {
+        if (!isdigit(str[i]) && str[i] != '\n') return 0;
+    }
+    return atoi(str) > 0;
+}
+typedef struct {
+    int id;
+    char nombre[100];
+} NombreArgs;
+//  imprime nombre 
+void* imprimir_nombre(void* arg) {
+    NombreArgs* datos = (NombreArgs*)arg;
+    printf("[Thread ID: %d] My name is %s.\n", datos->id, datos->nombre);
+    free(arg);
+    return NULL;
+}
+// funcion recusiva de fibonacci con  hilos
+void* fibonacci_recusivo (void* arg) {
+    int id = *((int*)arg);
+    int n = *(((int*)arg) + 1);
+    int resultado = fibonacci(n);
+    printf("[Thread ID: %d] Fibonacci%d numero: %d\n", id, n, resultado);
+    free(arg);
+    return NULL;
+}
+
+int main() {
+    char input[100];
+    int continuar = 1;
+
+    while (continuar) {
+        printf("Enter your choice:\n");
+        printf("1. Print name\n");
+        printf("2. Print i-th Fibonacci number\n");
+        printf("3. Exit program\n");
+        fgets(input, sizeof(input), stdin);
+
+        if (!es_positivo(input)) {
+            continue;
+        }
+
+        int opcion = atoi(input);
+// Maneja el menu
+        switch (opcion) {
+            case 1: {
+                char nombre[100];
+                printf("Introduce nombre: ");
+                fgets(nombre, sizeof(nombre), stdin);
+                nombre[strcspn(nombre, "\n")] = '\0';  // Eliminar '\n'
+
+                pthread_mutex_lock(&lock);
+                NombreArgs* arg = malloc(sizeof(NombreArgs));
+                arg->id = thread_id_counter++;
+                strcpy(arg->nombre, nombre);
+                pthread_create(&threads[thread_count++], NULL, imprimir_nombre, arg);
+                pthread_mutex_unlock(&lock);
+                break;
+            }
+            case 2: {
+                printf("Numero fabinacci: ");
+                fgets(input, sizeof(input), stdin);
+
+                if (!es_positivo(input)) {
+                    printf("Error, introdusca numero positivo\n");
+                    continue;
+                }
+
+                int n = atoi(input);
+
+                pthread_mutex_lock(&lock);
+                int* args = malloc(2 * sizeof(int));
+                args[0] = thread_id_counter++;
+                args[1] = n;
+                pthread_create(&threads[thread_count++], NULL, imprimir_fibonacci, args);
+                pthread_mutex_unlock(&lock);
+                break;
+            }
+            case 3:
+                continuar = 0;
+                printf("Waiting for threads to finish...\n");
+                for (int i = 0; i < thread_count; ++i) {
+                    pthread_join(threads[i], NULL);
+                }
+                printf("Salir del programa.\n");
+                break;
+
+        }
+    }
+
+    return 0;
+}
