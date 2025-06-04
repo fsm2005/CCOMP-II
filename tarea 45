@@ -1,50 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <pthread.h>
-#include <unistd.h>
-
-int thread_id_counter = 0;
-pthread_t threads[100];
-int thread_count = 0;
-pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-// funcion recusiva de fibonacci
-int fibonacci(int n) {
-    if (n == 0) return 0;
-    if (n == 1) return 1;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
-// funcion numero positivo
-int es_positivo(const char* str) {
-    if (*str == '\0' || str[0] == '\n') return 0;
-    for (int i = 0; str[i]; ++i) {
-        if (!isdigit(str[i]) && str[i] != '\n') return 0;
-    }
-    return atoi(str) > 0;
-}
-typedef struct {
-    int id;
-    char nombre[100];
-} NombreArgs;
-//  imprime nombre 
-void* imprimir_nombre(void* arg) {
-    NombreArgs* datos = (NombreArgs*)arg;
-    printf("[Thread ID: %d] My name is %s.\n", datos->id, datos->nombre);
-    free(arg);
-    return NULL;
-}
-// funcion recusiva de fibonacci con  hilos
-void* fibonacci_recusivo (void* arg) {
-    int id = *((int*)arg);
-    int n = *(((int*)arg) + 1);
-    int resultado = fibonacci(n);
-    printf("[Thread ID: %d] Fibonacci%d numero: %d\n", id, n, resultado);
-    free(arg);
-    return NULL;
-}
-
-int main() {
+{
     char input[100];
     int continuar = 1;
 
@@ -97,9 +51,8 @@ int main() {
             }
             case 3:
                 continuar = 0;
-                printf("Waiting for threads to finish...\n");
                 for (int i = 0; i < thread_count; ++i) {
-                    pthread_join(threads[i], NULL);
+                    pthread_cancel(threads[i]);
                 }
                 printf("Salir del programa.\n");
                 break;
