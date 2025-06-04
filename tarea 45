@@ -91,7 +91,7 @@ int main() {
                 int* args = malloc(2 * sizeof(int));
                 args[0] = thread_id_counter++;
                 args[1] = n;
-                pthread_create(&threads[thread_count++], NULL, imprimir_fibonacci, args);
+                pthread_create(&threads[thread_count++], NULL, fibonacci_recusivo, args);
                 pthread_mutex_unlock(&lock);
                 break;
             }
